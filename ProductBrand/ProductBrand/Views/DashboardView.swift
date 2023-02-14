@@ -7,17 +7,16 @@
 
 import SwiftUI
 
-
 struct DashboardView: View {
     
     enum SegmentSection: Int {
         case all
-        case favorites
+        case favourites
         
         var desc: String {
             switch self {
             case .all: return "All"
-            case .favorites: return "Favorites"
+            case .favourites: return "Favourites"
             }
         }
     }
