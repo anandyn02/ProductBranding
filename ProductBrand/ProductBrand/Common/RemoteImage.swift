@@ -36,7 +36,6 @@ final class RemoteImage : ObservableObject {
         loadingState = .inProgress
         
         if let response = cache.cachedResponse(for: URLRequest(url: url))  {
-            print("cache for \(url)")
             guard let value = UIImage(data: response.data) else {
                 loadingState = .failure
                 return
@@ -51,9 +50,6 @@ final class RemoteImage : ObservableObject {
                     guard let value = UIImage(data: $0.data) else {
                         return .failure
                     }
-                    
-                    print("save cache for \(self.url)")
-
                     self.cache.storeCachedResponse(CachedURLResponse(response: $0.response, data: $0.data), for: URLRequest(url: self.url))
 
                     return .success(Image(uiImage: value))

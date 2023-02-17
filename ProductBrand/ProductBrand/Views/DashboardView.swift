@@ -60,10 +60,6 @@ struct DashboardView: View {
         .onAppear{
             viewModel.apply(input: .onAppear)
         }
-        .onDisappear {
-            print("Dashboard disappeared!")
-        }
-
     }
 }
 

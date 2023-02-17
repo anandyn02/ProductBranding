@@ -56,9 +56,6 @@ struct ProductDetailsView: View {
         .padding()
         .navigationTitle(product.title)
         .overlay(ImageOverlay(isSelected: $product.isFavorite), alignment: .topTrailing)
-        .onDisappear {
-            print("ContentView disappeared!")
-        }
         .onAppear {
             self.product.isChangesApplicable = false
         }
