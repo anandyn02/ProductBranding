@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct ProductDetailsView: View {
+    
+    @Environment(\.presentationMode) var presentationMode
+    
     @State var product: Product
     
     @State private var showsAlert = false
-    
+            
     var body: some View {
-        
+                
         VStack(alignment: .leading, spacing: 10) {
             URLImage(urlString: product.imageURL)
                 .frame(width: UIScreen.main.bounds.width, height: 200)
@@ -53,6 +56,18 @@ struct ProductDetailsView: View {
         .padding()
         .navigationTitle(product.title)
         .overlay(ImageOverlay(isSelected: $product.isFavorite), alignment: .topTrailing)
+        .onDisappear {
+            print("ContentView disappeared!")
+        }
+        .onAppear {
+            self.product.isChangesApplicable = false
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: Button(action: {
+            self.product.isChangesApplicable = true
+            self.presentationMode.wrappedValue.dismiss()
+        }, label: { Image(systemName: "arrow.left") }))
+        .navigationBarTitle("", displayMode: .inline)
     }
 }
 

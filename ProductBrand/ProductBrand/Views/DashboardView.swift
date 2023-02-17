@@ -37,11 +37,16 @@ struct DashboardView: View {
             NavigationView {
                 List(viewModel.getProductItem(section: segmentCurrentIndex, onRefresh: didRefresh)) { item in
                     ProductView(product: item)
-                        .onReceive(item.$isFavorite) { flag in
-                            if segmentCurrentIndex == 1 {
-                              //  didRefresh.toggle()
-                            }
+                    .onReceive(item.$isFavorite) { flag in
+                        if segmentCurrentIndex == 1 && item.isChangesApplicable {
+                            didRefresh.toggle()
                         }
+                    }
+                    .onReceive(item.$isChangesApplicable) { flag in
+                        if flag {
+                            didRefresh.toggle()
+                        }
+                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -54,6 +59,9 @@ struct DashboardView: View {
         
         .onAppear{
             viewModel.apply(input: .onAppear)
+        }
+        .onDisappear {
+            print("Dashboard disappeared!")
         }
 
     }

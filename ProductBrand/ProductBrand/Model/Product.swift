@@ -35,7 +35,9 @@ class Product: Decodable, Hashable, Identifiable, ObservableObject {
     var price: [Price] = []
     var rating: Double = 0.0
     
-    @Published var isFavorite: Bool = false 
+    @Published var isFavorite: Bool = false
+    @Published var isChangesApplicable: Bool = true
+
     
     enum CodingKeys: String, CodingKey {
         case title

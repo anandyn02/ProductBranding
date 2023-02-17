@@ -47,7 +47,6 @@ struct ProductView: View {
                 Spacer()
             }
             .overlay(ImageOverlay(isSelected: $product.isFavorite), alignment: .topTrailing)
-            
             NavigationLink(destination: ProductDetailsView(product: product)) {
                // Text("Do Something")
             }
