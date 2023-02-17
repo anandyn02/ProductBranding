@@ -24,22 +24,38 @@ struct DashboardView: View {
     @ObservedObject var viewModel: ProductViewModel
     
     @State private var segmentCurrentIndex: Int = 0
-    
+            
+    @State var didRefresh: Bool = false
+
     var body: some View {
-        NavigationView {
-            List(viewModel.getProductItem(section: segmentCurrentIndex)) { item in
-                ProductView(product: item)
+        ZStack {
+            
+            if self.viewModel.isApiLoading {
+                ProgressView().zIndex(1)
             }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    SegmentBar(state: $segmentCurrentIndex)
+            
+            NavigationView {
+                List(viewModel.getProductItem(section: segmentCurrentIndex, onRefresh: didRefresh)) { item in
+                    ProductView(product: item)
+                        .onReceive(item.$isFavorite) { flag in
+                            if segmentCurrentIndex == 1 {
+                              //  didRefresh.toggle()
+                            }
+                        }
                 }
-            }
-            .navigationTitle(SegmentSection(rawValue: segmentCurrentIndex)?.desc ?? "")
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        SegmentBar(state: $segmentCurrentIndex)
+                    }
+                }
+                .navigationTitle(SegmentSection(rawValue: segmentCurrentIndex)?.desc ?? "")
+            }.zIndex(0)
         }
+        
         .onAppear{
             viewModel.apply(input: .onAppear)
         }
+
     }
 }
 

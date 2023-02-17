@@ -15,8 +15,7 @@ struct ProductDetailsView: View {
     var body: some View {
         
         VStack(alignment: .leading, spacing: 10) {
-            let url = URL(string: product.imageURL)!
-            URLImage(url: url)
+            URLImage(urlString: product.imageURL)
                 .frame(width: UIScreen.main.bounds.width, height: 200)
             
             Text(product.title)

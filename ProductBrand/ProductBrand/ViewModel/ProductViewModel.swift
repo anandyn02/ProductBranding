@@ -20,9 +20,13 @@ final class ProductViewModel: ViewModel {
     private let onAppearSubject = PassthroughSubject<Void, Never>()
     var cancellables: [AnyCancellable] = []
 
-    @Published var products: Products = Products(items: [])
-    @Published var favorites: [Product] = []
-
+    @Published var products: Products = Products(items: []) {
+        willSet {
+            self.isApiLoading = false
+        }
+    }
+            
+    @Published var isApiLoading:  Bool = false
 
     enum Input: Equatable {
         case onAppear
@@ -31,12 +35,15 @@ final class ProductViewModel: ViewModel {
     
     func apply(input: Input) {
         switch input {
-        case .onAppear: onAppearSubject.send()
+        case .onAppear:
+            self.isApiLoading = true
+            self.onAppearSubject.send()
         case .onTestExecute: prepareMockObject()
         }
     }
     
     private func bind() {
+        
         onAppearSubject
             .flatMap { [productService] _ in
                 productService.fetchProducts()
@@ -45,7 +52,8 @@ final class ProductViewModel: ViewModel {
             .store(in: &cancellables)
     }
     
-    func getProductItem(section: Int) -> [Product] {
+    
+    func getProductItem(section: Int, onRefresh: Bool) -> [Product] {
         let segment = SegmentSection.allCases[section]
         switch segment {
         case .all:

@@ -12,16 +12,13 @@ struct ProductView: View {
     @State var product: Product
     
     @State private var showsAlert = false
-    @State private var isSelected = false
 
     var body: some View {
         ZStack(alignment: .leading){
         
             LazyVStack(alignment: .leading, spacing: 10) {
-                let url = URL(string: product.imageURL)!
-                URLImage(url: url)
+                URLImage(urlString: product.imageURL)
                     .frame(width: 100, height: 100)
-                
                 
                 Text(product.title)
                     .foregroundColor(.black)

@@ -16,6 +16,7 @@ struct ImageOverlay: View {
             Button(action: {
                 self.isSelected = !isSelected
                 imageName = isSelected ? "heart_sel" : "heart"
+                
             }) {
                 Image(imageName)
                     .renderingMode(.original)

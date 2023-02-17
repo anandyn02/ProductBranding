@@ -11,6 +11,19 @@ struct URLImage: View {
     
     @ObservedObject private var remoteImage: RemoteImage
     
+    init(urlString: String) {
+        if  let url = URL(string: urlString) {
+            remoteImage = RemoteImage(url: url)
+        } else if let image_url = Bundle.main.url(forResource: "fall_leaves", withExtension: "png") {
+            remoteImage = RemoteImage(url: image_url)
+        }
+        else {
+            remoteImage = RemoteImage(url: URL(fileURLWithPath: ""))
+        }
+        remoteImage.load()
+
+    }
+    
     init(url: URL) {
         remoteImage = RemoteImage(url: url)
         remoteImage.load()

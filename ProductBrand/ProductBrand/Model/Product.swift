@@ -8,7 +8,7 @@
 import Foundation
 
 struct Products: Decodable {
-    
+        
     var items: [Product]
     
     enum CodingKeys: String, CodingKey {
@@ -35,7 +35,7 @@ class Product: Decodable, Hashable, Identifiable, ObservableObject {
     var price: [Price] = []
     var rating: Double = 0.0
     
-    @Published var isFavorite: Bool = false
+    @Published var isFavorite: Bool = false 
     
     enum CodingKeys: String, CodingKey {
         case title
